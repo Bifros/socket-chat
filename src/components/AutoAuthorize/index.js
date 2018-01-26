@@ -3,7 +3,7 @@ import { history } from '../../store';
 import OctoLoader from '../Common/Loader';
 import AxiosHandler from '../../utils/AxiosHandler';
 import errorMessages from '../../constants/errorMessages';
-import {routes} from '../../constants/path';
+import { apiEndpoints, appRoutes } from '../../constants/path';
 
 class AutoAuthorize extends Component {
   constructor(props) {
@@ -19,31 +19,36 @@ class AutoAuthorize extends Component {
     this.authorize();
   }
 
-  redirectIfUnAuthorized(res) {
-    console.log(res);
+  navigate(res) {
     if (res.data.error) {
-      history.push(routes.login);
+      history.push(appRoutes.login);
     } else {
       this.setState({ displayLoader: false });
+      history.push({
+        pathname: appRoutes.lobby,
+        state: {
+          userInfo: {}
+        }
+      });
     }
   }
 
-  static handleNetworkError() {
-    history.push({
-      pathname: routes.error,
-      state: {
-        message: errorMessages.SERVICE_UNAVALIABLE,
-      }
-    });
+  handleNetworkError() {
+      history.push({
+        pathname: appRoutes.error,
+        state: {
+          message: errorMessages.SERVICE_UNAVAILABLE,
+        }
+      });
   }
 
   authorize() {
     const axiosHandler = new AxiosHandler();
-    console.log(routes.authorizeUser);
+
     return axiosHandler
       .tokenSetup()
-      .get(routes.userAuthorize)
-      .then(this.redirectIfUnAuthorized)
+      .get(apiEndpoints.userAuthorize)
+      .then(this.navigate.bind(this))
       .catch(this.handleNetworkError);
   }
 

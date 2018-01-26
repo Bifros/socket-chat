@@ -1,4 +1,4 @@
-const Room = require('../../database/models/room');
+const Room = require('../../../database/models/room');
 
 const filterInfo = rooms => rooms.map(room => ({
     id: room._id,

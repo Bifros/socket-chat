@@ -1,22 +1,27 @@
-const io = require('socket.io')(),
-  express = require('express'),
-  http = require('http'),
-  db = require('../db');
+const app = require('http').createServer(),
+      io = require('socket.io').listen(app),
+      handlers = require('./handlers'),
+      { sendAndStore } = require('./history-manager');
 
-io.on('connection', (client) => {
-  client.on('subscribeToTimer', (interval) => {
-    console.log('client is subscribing to timer with interval ', interval);
-    setInterval(() => {
-      client.emit('timer', new Date());
-    }, interval);
+let rooms = ['lobby', 'room2', 'room3'],
+    usersSet = new Set();
+
+app.listen(8002);
+
+io.sockets.on('connection', (socket) => {
+  socket.on('connectNewUser', handlers.userConnect(socket, usersSet));
+
+  socket.on('sendChat', (data) => {
+    io.sockets
+      .in(socket.room)
+      .emit('updateChat', socket.username, sendAndStore(JSON.stringify(data)));
   });
 
-  client.on('disconnect', () => {
-    console.log('client is trying to disconnect');
-    client.emit('client_disconnected');
+  socket.on('switchRoom', handlers.roomsSwitch(socket));
+
+  socket.on('disconnect', function() {
+    socket.broadcast.emit('updateChat', socket.username + ' has disconnected');
+    socket.leave(socket.room);
   });
+
 });
-
-const port = 8002;
-io.listen(port);
-console.log('chat is listening on port ', port);

@@ -15,18 +15,22 @@
     "react-router": "^4.2.0",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "1.1.0",
+    "redis": "^2.8.0",
     "redux": "^3.7.2",
     "redux-form": "^7.2.1",
     "redux-logger": "^3.0.6",
     "socket.io": "^2.0.4",
-    "styled-components": "^2.4.0"
+    "socket.io-client": "^2.0.4",
+    "socket.io-redis": "^5.2.0",
+    "styled-components": "^2.4.0",
+    "uuid": "^3.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "app-server": "nodemon --watch app-server --watch database ./app-server/index.js",
+    "app-server": "nodemon --watch src/app-server --watch database ./src/app-server/index.js",
     "chat-server": "nodemon --watch chat-server --watch database ./chat-server/index.js"
   },
   "devDependencies": {

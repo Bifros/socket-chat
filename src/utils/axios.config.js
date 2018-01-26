@@ -6,7 +6,8 @@ export const axiosConfig = axios.create({
   baseURL: 'http://localhost:8001',
   timeout: 1000 * 10,
   headers: {
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Content-Type': 'application/json'
   },
   responseType: 'json',
+  validateStatus: (status) => status < 500
 });

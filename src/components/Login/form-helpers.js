@@ -1,6 +1,7 @@
 import AxiosHandler from '../../utils/AxiosHandler';
-import { routes } from '../../constants/path';
+import { appRoutes, apiEndpoints } from '../../constants/path';
 import { history } from '../../store';
+import storage from '../../utils/storage';
 
 export const validate = values => {
   const errors = {};
@@ -21,22 +22,46 @@ export const validate = values => {
   return errors;
 };
 
-const obtainData = res => res.data ? res.data : null;
+const saveInfo = data => {
+  if (data) {
+    const {
+      name,
+      access_token,
+      refresh_token,
+    } = data;
 
-const handleErrors = res => {
+    storage.setToken('access', access_token);
+    storage.setToken('refresh', refresh_token);
+    storage.setUser(name);
+  } else {
+    throw new Error('No data');
+  }
+
+  return data;
+};
+
+const handleErrors = err => console.log(err);
+
+const handleResponse = res => {
   const error = res.data.error;
 
-  if (error) {
-    history.push({
-      pathname: routes.error,
+  return !error
+    ? res.data
+    : history.push({
+      pathname: appRoutes.error,
       state: {
         message: error,
       }
-    })
-  }
-
-  return res;
+    });
 };
+
+const navigateToLobby = (info) => history
+  .push({
+    pathname: appRoutes.lobby,
+    state: {
+      userInfo: info
+    }
+  });
 
 export const handleSubmit = props => event => {
   event.preventDefault();
@@ -46,8 +71,10 @@ export const handleSubmit = props => event => {
     const { name, password } = props.values;
 
     axiosHandler
-      .post(routes.userAthenticate, { name, password })
-      .then(handleErrors)
-      .then(obtainData)
+      .post(apiEndpoints.userAthenticate, { name, password })
+      .then(handleResponse)
+      .then(saveInfo)
+      .then(navigateToLobby)
+      .catch(handleErrors)
   }
 };

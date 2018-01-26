@@ -1,9 +1,15 @@
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:8000');
+const socket = openSocket('http://localhost:8002');
 
-function subscribeToTimer(interval, cb) {
-  socket.on('timer', timeStamp => cb(null, timeStamp));
-  socket.emit('subscribeToTimer', 1000);
+export const connectToLobby = (username, callback) => {
+  socket.emit('connectNewUser', username);
+  socket.on('usersOnline', callback);
 };
 
-export { subscribeToTimer };
+export const getMessage = (callback) => {
+  socket.on('updateChat', callback);
+};
+
+export const switchRoom = (roomName) => {
+  socket.emit('switchRoom', roomName)
+};

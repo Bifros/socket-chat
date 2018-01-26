@@ -1,5 +1,5 @@
 const { applyHistory } = require('../helpers/history-helpers');
-const Room = require('../../database/models/room');
+const Room = require('../../../database/models/room');
 
 const filterInfo = data => ({
     room: {

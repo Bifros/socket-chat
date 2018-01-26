@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Room = require('../../database/models/room');
+const Room = require('../../../database/models/room');
 
 const messages = {
   ROOM_EXISTS: 'Room with this name already exists.'

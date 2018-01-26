@@ -1,5 +1,5 @@
 const errorMessages = {
-  SERVICE_UNAVALIABLE: 'Service is currently unavaliable.',
+  SERVICE_UNAVAILABLE: 'Service is temporary unavailable.',
 };
 
 export default errorMessages;

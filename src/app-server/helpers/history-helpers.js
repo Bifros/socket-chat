@@ -1,4 +1,4 @@
-const History = require('../../database/models/room-history');
+const History = require('../../../database/models/room-history');
 
 const applyHistory = room => History
   .findById(room.h_id)

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../../database/models/user');
+const User = require('../../../database/models/user');
 const secret = require('../config').secret;
 const generateTokens = require('../helpers/generateToken');
 

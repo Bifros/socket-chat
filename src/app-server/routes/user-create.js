@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('../../database/models/user');
+const User = require('../../../database/models/user');
 
 const messages = {
   USER_EXISTS: 'User already exists.'
