@@ -4,6 +4,7 @@ import createHistory from 'history/createBrowserHistory';
 import logger from 'redux-logger';
 import reducers from './reducers';
 import { routerMiddleware, routerReducer } from 'react-router-redux';
+
 export const history = createHistory();
 
 const middleware = routerMiddleware(history);

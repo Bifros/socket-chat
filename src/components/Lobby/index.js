@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import uuid from 'uuid';
-import Link from 'react-router';
 import storage from '../../utils/storage';
 import { apiEndpoints } from '../../constants/path';
-import { connectToLobby, getMessage } from '../../api';
-import { urlFormat } from '../../utils/helpers';
+import {connectToLobby, connectToRoom, subscribeToMessagesStream, switchRoom} from '../../api';
+import {belongsToRoom, urlFormat} from '../../utils/helpers';
 import AxiosHandler from '../../utils/AxiosHandler';
+import { history } from '../../store';
 import LobbyComponent from './LobbyComponent';
-
+import Layout from '../Layout';
 
 class Lobby extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      user: storage.getUser(),
+      user: this.props.location.state.name || storage.getUser(),
       rooms: [],
       online: 0
     };
@@ -23,15 +23,20 @@ class Lobby extends Component {
   }
 
   componentWillMount() {
-    connectToLobby(
+    connectToRoom(
       this.state.user,
+      'lobby',
       (online) => this.setState({ online })
     );
 
-    getMessage((data) => console.log(data));
+    subscribeToMessagesStream((user, data) => {
+      if (belongsToRoom('lobby', data)) {
+        console.log(data.msg);
+      }
+    });
 
     this.axiosHandler
-      .get(apiEndpoints.lobbyInfo)
+      .get(apiEndpoints.roomsList)
       .then(this.setLobbyInfo);
   }
 
@@ -41,21 +46,14 @@ class Lobby extends Component {
     }
   };
 
-  renderRooms = () => this.state.rooms.map(room => (
-    <li key={uuid.v4()}>
-      <Link to={`/room/${urlFormat(room)}`}>
-        {room.name}
-      </Link>
-    </li>
-  ));
-
   render() {
     return (
-      <LobbyComponent
-        user={this.state.user}
-        online={this.state.online}
-        renderRooms={() => this.renderRooms()}
-      />
+      <Layout currentRouteName="lobby">
+        <LobbyComponent
+          user={this.state.user}
+          online={this.state.online}
+        />
+      </Layout>
     );
   }
 }

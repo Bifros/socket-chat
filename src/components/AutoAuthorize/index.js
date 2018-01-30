@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { history } from '../../store';
 import OctoLoader from '../Common/Loader';
 import AxiosHandler from '../../utils/AxiosHandler';
+import { history } from '../../store';
 import errorMessages from '../../constants/errorMessages';
 import { apiEndpoints, appRoutes } from '../../constants/path';
 
@@ -49,7 +49,7 @@ class AutoAuthorize extends Component {
       .tokenSetup()
       .get(apiEndpoints.userAuthorize)
       .then(this.navigate.bind(this))
-      .catch(this.handleNetworkError);
+      .catch(this.handleNetworkError.bind(this));
   }
 
   render() {

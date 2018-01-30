@@ -3,5 +3,5 @@ module.exports = (req, res) => {
     success: true
   });
 
-  setTimeout(authorize, 2000);
+  setTimeout(authorize, 500);
 };

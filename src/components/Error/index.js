@@ -10,7 +10,7 @@ const ErrorPage = ({ location }) => (
   <PageWrapper>
     <ErrorWrapper>
       <ErrorTitle>Error occurred</ErrorTitle>
-      <Error>{location.state.message}</Error>
+      <Error>{location.state ? location.state.message : location.message }</Error>
     </ErrorWrapper>
   </PageWrapper>
 );

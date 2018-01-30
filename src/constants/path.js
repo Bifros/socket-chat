@@ -8,5 +8,6 @@ export const appRoutes = {
 export const apiEndpoints = {
   userAuthorize: '/app/user/authorize',
   userAthenticate: '/authenticate',
-  lobbyInfo: 'app/rooms-list'
+  roomsList: 'app/rooms-list',
+  fileDownload: 'app/file-download'
 };

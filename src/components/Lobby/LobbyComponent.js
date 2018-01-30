@@ -5,16 +5,11 @@ import {
 
 const LobbyComponent = ({
   user,
-  online,
-  renderRooms
+  online
 }) => (
   <Container>
     <h3>Lobby, logged as {user}</h3>
     <h3>Users online: {online}</h3>
-
-    <ul>
-      {renderRooms()}
-    </ul>
   </Container>
 );
 

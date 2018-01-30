@@ -40,7 +40,11 @@ const saveInfo = data => {
   return data;
 };
 
-const handleErrors = err => console.log(err);
+const postErrorsHandler = err => history
+  .push({
+    pathname: '/error',
+    state: { message: err }
+  });
 
 const handleResponse = res => {
   const error = res.data.error;
@@ -59,7 +63,7 @@ const navigateToLobby = (info) => history
   .push({
     pathname: appRoutes.lobby,
     state: {
-      userInfo: info
+      ...info
     }
   });
 
@@ -75,6 +79,6 @@ export const handleSubmit = props => event => {
       .then(handleResponse)
       .then(saveInfo)
       .then(navigateToLobby)
-      .catch(handleErrors)
+      .catch(postErrorsHandler)
   }
 };

@@ -2,17 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router';
-import { store, history } from './store';
 import { ConnectedRouter } from 'react-router-redux';
+import { store, history } from './store';
 import registerServiceWorker from './registerServiceWorker';
-
 import Login from './components/Login';
 import Home from './components/Home';
 import ErrorPage from './components/Error';
 import Lobby from './components/Lobby';
+import Room from './components/Room';
 
 import './style.css';
-import Room from './components/Room';
 
 ReactDOM.render(
   <Provider store={store}>

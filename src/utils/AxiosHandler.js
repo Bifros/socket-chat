@@ -15,13 +15,13 @@ export default class AxiosHandler {
     return this.axiosConfig;
   }
 
-  getChatConnection() {
-    const chatConnection = axiosConfig;
-    chatConnection
+  downloadFile(url, opts) {
+    this.axiosConfig
       .defaults
-      .baseURL = 'http://localhost:8002';
+      .responseType = 'blob';
 
-    return chatConnection;
+    return this
+      .post(url, opts);
   }
 
   post(url, opts) {
